@@ -39,9 +39,14 @@ namespace ProjectA1
                 {
                     Console.WriteLine("----Wrong input, try again.----");
                 }
-                if (nrArticles > 10)
+                else if (nrArticles > 10)
                 {
                     Console.WriteLine("You cannot but more than 10 articles");
+                    didItWork = false;
+                }
+                else if (nrArticles == 0)
+                {
+                    Console.WriteLine("You cannot but 0 articles!");
                     didItWork = false;
                 }
             }   
@@ -59,11 +64,13 @@ namespace ProjectA1
             {
                 string enteredString;
                 string[] inputStrings = default;
-                bool correctNumberFormat = false;
-                bool hasName = true;
-                decimal price;
+                bool correctNumberFormat = default;
+                bool correctNameFormat = default;
+                decimal price = default;
+                string name = default;
                 do
                 {
+                    correctNameFormat = true;
                     Console.WriteLine($"Article n#{i+1}:");
                     enteredString = Console.ReadLine();
 
@@ -79,6 +86,7 @@ namespace ProjectA1
                         continue;
                     }
 
+                    //Is the number format correct?
                     correctNumberFormat = decimal.TryParse(inputStrings[1], out price);
                     if (!correctNumberFormat)
                     {
@@ -90,20 +98,25 @@ namespace ProjectA1
                         Console.WriteLine("The price cannot be a negative number!");
                     }
 
-                    //Did the user input a name for the article?
-                    string name = inputStrings[0];
+                    //Did the user input a name for the article, and is this name not too long?
+                    name = inputStrings[0];
                     if (string.IsNullOrWhiteSpace(name))
                     {
                         Console.WriteLine("Don't forget to enter a name for your article.");
-                        hasName = false;
+                        correctNameFormat = false;
+                    }
+                    else if (name.Length > 20)
+                    {
+                        Console.WriteLine("Please use a name for your article with no more than 20 characters.");
+                        correctNameFormat = false;
                     }
 
-                    //If all is right, we create an instance of Article to save he data.
-                    articles[i].Name = name;
-                    articles[i].Price = price;
                 }
-                while (!enteredString.Contains(" - ") || !correctNumberFormat || !hasName);
+                while (!enteredString.Contains(" - ") || !correctNumberFormat || !correctNameFormat);
 
+                //Now that all is right, we create an instance of Article to save the data.
+                articles[i].Name = name;
+                articles[i].Price = price;
             }
 
             
