@@ -105,7 +105,7 @@ namespace ProjectA1
                         Console.WriteLine("Don't forget to enter a name for your article.");
                         correctNameFormat = false;
                     }
-                    else if (name.Length > 20)
+                    else if (name.Length > _maxArticleNameLength)
                     {
                         Console.WriteLine("Please use a name for your article with no more than 20 characters.");
                         correctNameFormat = false;
@@ -143,7 +143,7 @@ namespace ProjectA1
                 Console.WriteLine($"{i + 1,-10}{articles[i].Name,-20}{articles[i].Price, -20:C}");
             }
             Console.WriteLine($"\n{"Total Purchase:", -30}{total, -20:C}");
-            Console.WriteLine($"{"Includes VAT (25%):", -30}{0.2M*total, -20:C}");
+            Console.WriteLine($"{"Includes VAT (25%):", -30}{total - total/ (_vat+1), -20:C}");
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.Gray;
         }
